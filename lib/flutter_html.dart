@@ -37,6 +37,7 @@ class Html extends StatelessWidget {
     this.customRender,
     this.onImageError,
     this.shrinkWrap = false,
+    this.isSelectable = false,
     this.onImageTap,
     this.blacklistedElements = const [],
     this.style,
@@ -46,6 +47,7 @@ class Html extends StatelessWidget {
   final OnTap onLinkTap;
   final ImageErrorListener onImageError;
   final bool shrinkWrap;
+  final bool isSelectable;
 
   /// Properties for the Image widget that gets rendered by the rich text parser
   final OnTap onImageTap;
@@ -71,6 +73,7 @@ class Html extends StatelessWidget {
         onImageTap: onImageTap,
         onImageError: onImageError,
         shrinkWrap: shrinkWrap,
+        isSelectable: isSelectable,
         style: style,
         customRender: customRender,
         blacklistedElements: blacklistedElements,

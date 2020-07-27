@@ -26,6 +26,7 @@ class HtmlParser extends StatelessWidget {
   final OnTap onImageTap;
   final ImageErrorListener onImageError;
   final bool shrinkWrap;
+  final bool isSelectable;
 
   final Map<String, Style> style;
   final Map<String, CustomRender> customRender;
@@ -37,6 +38,7 @@ class HtmlParser extends StatelessWidget {
     this.onImageTap,
     this.onImageError,
     this.shrinkWrap,
+    this.isSelectable,
     this.style,
     this.customRender,
     this.blacklistedElements,
@@ -229,6 +231,7 @@ class HtmlParser extends StatelessWidget {
           newContext: newContext,
           style: tree.style,
           shrinkWrap: context.parser.shrinkWrap,
+          isSelectable: isSelectable,
           child: customRender[tree.name].call(
             newContext,
             ContainerSpan(
@@ -253,6 +256,7 @@ class HtmlParser extends StatelessWidget {
         child: ContainerSpan(
           newContext: newContext,
           style: tree.style,
+          isSelectable: isSelectable,
           shrinkWrap: context.parser.shrinkWrap,
           children: tree.children
                   ?.map((tree) => parseTree(newContext, tree))
@@ -265,6 +269,7 @@ class HtmlParser extends StatelessWidget {
         child: ContainerSpan(
           newContext: newContext,
           style: tree.style,
+          isSelectable: isSelectable,
           shrinkWrap: context.parser.shrinkWrap,
           child: Stack(
             children: <Widget>[
@@ -675,6 +680,7 @@ class ContainerSpan extends StatelessWidget {
   final Style style;
   final RenderContext newContext;
   final bool shrinkWrap;
+  final bool isSelectable;
 
   ContainerSpan({
     this.child,
@@ -682,6 +688,7 @@ class ContainerSpan extends StatelessWidget {
     this.style,
     this.newContext,
     this.shrinkWrap = false,
+    this.isSelectable = false,
   });
 
   @override
@@ -703,6 +710,7 @@ class ContainerSpan extends StatelessWidget {
               children: children,
             ),
             style: newContext.style,
+            isSelectable: isSelectable,
           ),
     );
   }
@@ -712,10 +720,12 @@ class StyledText extends StatelessWidget {
   final InlineSpan textSpan;
   final Style style;
   final double textScaleFactor;
+  final bool isSelectable;
 
   const StyledText({
     this.textSpan,
     this.style,
+    this.isSelectable,
     this.textScaleFactor = 1.0,
   });
 
@@ -726,8 +736,9 @@ class StyledText extends StatelessWidget {
           style.display == Display.BLOCK || style.display == Display.LIST_ITEM
               ? double.infinity
               : null,
-      child: textSpan
-              .visitChildren((InlineSpan span) => span.runtimeType == TextSpan)
+      child: isSelectable == true &&
+              textSpan.visitChildren(
+                  (InlineSpan span) => span.runtimeType == TextSpan)
           ? SelectableText.rich(
               textSpan,
               style: style.generateTextStyle(),
