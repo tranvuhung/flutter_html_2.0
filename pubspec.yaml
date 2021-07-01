@@ -16,7 +16,7 @@ dependencies:
   css_colors: ^1.0.2
 
   # Plugins for rendering the <video> tag.
-  video_player: ^0.10.10
+  video_player: 1.1.0
   chewie: 1.2.2
 
   # Plugin for rendering the <iframe> tag.
