@@ -20,7 +20,7 @@ dependencies:
   chewie: ^0.9.10
 
   # Plugin for rendering the <iframe> tag.
-  webview_flutter: 1.0.7
+  webview_flutter: 2.0.9
   #for flutter version ^2.0
   #webview_flutter: ^2.0.4
 
